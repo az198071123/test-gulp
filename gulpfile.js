@@ -2,7 +2,10 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     minifyCSS = require('gulp-minify-css'),
     uglify = require('gulp-uglify'),
-    rename = require("gulp-rename");
+    rename = require("gulp-rename"),
+    // htmlreplace = require('gulp-html-replace'),
+    // minifyHTML = require('gulp-minify-html'),
+    webserver = require('gulp-webserver');
 
 gulp.task('concat', function () {
     return gulp.src('./app/css/*.css')
@@ -30,6 +33,17 @@ gulp.task('uglify', function () {
             path.extname = ".js";
         }))
         .pipe(gulp.dest('./build/js/'));
+});
+
+gulp.task('webserver', function () {
+    gulp.src('./app/')
+        .pipe(webserver({
+            port: 1234,
+            livereload: true,
+            directoryListing: false,
+            open: true,
+            fallback: 'index.html'
+        }));
 });
 
 gulp.task('default', ['minify-css', 'uglify']);

@@ -1,0 +1,25 @@
+body {
+    margin: 0;
+}
+
+h1 {
+    display: inline-block;
+    /* position: absolute; */
+    padding: 0px 5px;
+    margin: 0;
+    background-color: #000;
+    font-size: 30px;
+    color: #fff;
+    opacity: .1;
+}
+
+.container {
+    display: flex;
+}
+
+.container div {
+    background-color: #aaa;
+    margin: 5px 5px;
+    font-size: 18px;
+    color: brown;
+}

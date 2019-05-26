@@ -3,8 +3,8 @@ var gulp = require('gulp'),
     minifyCSS = require('gulp-minify-css'),
     uglify = require('gulp-uglify'),
     rename = require("gulp-rename"),
-    // htmlreplace = require('gulp-html-replace'),
-    // minifyHTML = require('gulp-minify-html'),
+    htmlreplace = require('gulp-html-replace'),
+    minifyHTML = require('gulp-minify-html'),
     webserver = require('gulp-webserver');
 
 gulp.task('concat', function () {
@@ -35,6 +35,21 @@ gulp.task('uglify', function () {
         .pipe(gulp.dest('./build/js/'));
 });
 
+gulp.task('html-replace', function () {
+    var opts = {
+        comments: false,
+        spare: false,
+        quotes: true
+    };
+    return gulp.src('./app/*.html')
+        .pipe(htmlreplace({
+            'css': 'css/all.min.css',
+            'js': 'js/all.min.js'
+        }))
+        .pipe(minifyHTML(opts))
+        .pipe(gulp.dest('./build/'));
+});
+
 gulp.task('webserver', function () {
     gulp.src('./app/')
         .pipe(webserver({
@@ -42,8 +57,8 @@ gulp.task('webserver', function () {
             livereload: true,
             directoryListing: false,
             open: true,
-            fallback: 'index.html'
+            fallback: 'build/index.html'
         }));
 });
 
-gulp.task('default', ['minify-css', 'uglify']);
+gulp.task('default', ['html-replace', 'minify-css', 'uglify']);

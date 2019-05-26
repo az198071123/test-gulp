@@ -10,4 +10,26 @@ gulp.task('concat', function () {
         .pipe(gulp.dest('./build/css/'));
 });
 
-gulp.task('default', ['concat']);
+gulp.task('minify-css', ['concat'], function () {
+    return gulp.src('./build/css/all.css')
+        .pipe(minifyCSS({
+            keepBreaks: true,
+        }))
+        .pipe(rename(function (path) {
+            path.basename += ".min";
+            path.extname = ".css";
+        }))
+        .pipe(gulp.dest('./build/css/'));
+});
+
+gulp.task('uglify', function () {
+    return gulp.src('./app/js/*.js')
+        .pipe(uglify())
+        .pipe(rename(function (path) {
+            path.basename += ".min";
+            path.extname = ".js";
+        }))
+        .pipe(gulp.dest('./build/js/'));
+});
+
+gulp.task('default', ['minify-css', 'uglify']);
